@@ -1,16 +1,14 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
-import { E, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, uploadFiles, useEventLoop } from "/utils/state"
+import { E, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, set_val, uploadFiles, useEventLoop } from "/utils/state"
 import { EventLoopContext, StateContext } from "/utils/context.js"
 import "focus-visible/dist/focus-visible"
-import { Box, Button, Code, Heading, Link, Text, useColorMode, VStack } from "@chakra-ui/react"
-import { MoonIcon, SunIcon } from "@chakra-ui/icons"
-import NextLink from "next/link"
+import { Box, Button, Container, HStack, Input, Text, useColorMode } from "@chakra-ui/react"
 import NextHead from "next/head"
 
 
 export default function Component() {
-  const state = useContext(StateContext)
+  const default_state = useContext(StateContext)
   const router = useRouter()
   const { colorMode, toggleColorMode } = useColorMode()
   const focusRef = useRef();
@@ -27,7 +25,7 @@ export default function Component() {
 
   // Route after the initial page hydration.
   useEffect(() => {
-    const change_complete = () => Event([E('state.hydrate', {})])
+    const change_complete = () => Event([E('default_state.hydrate', {})])
     router.events.on('routeChangeComplete', change_complete)
     return () => {
       router.events.off('routeChangeComplete', change_complete)
@@ -37,35 +35,40 @@ export default function Component() {
 
   return (
   <Fragment><Fragment>
-  <Fragment>
-  <Button onClick={toggleColorMode} sx={{"float": "right"}}>
-  <Fragment>
-  {isTrue((colorMode === "light")) ? (
-  <Fragment>
-  <SunIcon/>
-</Fragment>
-) : (
-  <Fragment>
-  <MoonIcon/>
-</Fragment>
-)}
-</Fragment>
-</Button>
-  <VStack spacing={`1.5em`} sx={{"fontSize": "2em", "paddingTop": "10%"}}>
-  <Heading sx={{"fontSize": "2em"}}>
-  {`Welcome to Reflex!`}
-</Heading>
+  <Container>
   <Box>
-  {`Get started by editing `}
-  <Code sx={{"fontSize": "1em"}}>
-  {`chatapp/chatapp.py`}
-</Code>
+  <Box sx={{"marginY": "1em"}}>
+  <Box sx={{"textAlign": "right"}}>
+  <Text sx={{"padding": "1em", "borderRadius": "5px", "marginY": "0.5em", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px", "maxWidth": "30em", "display": "inline-block", "bg": "#F5EFFE", "marginLeft": "20%"}}>
+  {`What is Reflex?`}
+</Text>
 </Box>
-  <Link as={NextLink} href={`https://reflex.dev/docs/getting-started/introduction`} sx={{"border": "0.1em solid", "padding": "0.5em", "borderRadius": "0.5em", "_hover": {"color": isTrue((colorMode === "light")) ? `rgb(107,99,246)` : `rgb(179, 175, 255)`}}}>
-  {`Check out our docs!`}
-</Link>
-</VStack>
-</Fragment>
+  <Box sx={{"textAlign": "left"}}>
+  <Text sx={{"padding": "1em", "borderRadius": "5px", "marginY": "0.5em", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px", "maxWidth": "30em", "display": "inline-block", "bg": "#DEEAFD", "marginRight": "20%"}}>
+  {`A way to build web apps in pure Python!`}
+</Text>
+</Box>
+</Box>
+  <Box sx={{"marginY": "1em"}}>
+  <Box sx={{"textAlign": "right"}}>
+  <Text sx={{"padding": "1em", "borderRadius": "5px", "marginY": "0.5em", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px", "maxWidth": "30em", "display": "inline-block", "bg": "#F5EFFE", "marginLeft": "20%"}}>
+  {`What can I make with it?`}
+</Text>
+</Box>
+  <Box sx={{"textAlign": "left"}}>
+  <Text sx={{"padding": "1em", "borderRadius": "5px", "marginY": "0.5em", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px", "maxWidth": "30em", "display": "inline-block", "bg": "#DEEAFD", "marginRight": "20%"}}>
+  {`Anything from a simple website to a complex web app!`}
+</Text>
+</Box>
+</Box>
+</Box>
+  <HStack>
+  <Input placeholder={`Ask a question`} sx={{"borderWidth": "1px", "padding": "1em", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px"}} type={`text`}/>
+  <Button sx={{"bg": "#CEFFEE", "boxShadow": "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
+  {`Ask`}
+</Button>
+</HStack>
+</Container>
   <NextHead>
   <title>
   {`Reflex App`}
